@@ -18,6 +18,7 @@
             <div class="row">
                 <div class="col-md-9">
                     <p>{{post.text}}</p>
+
                 </div>
             </div>
         </b-card>
