@@ -25,9 +25,9 @@
         components:{
             'post-item': Post
         },
+        props: ["posts"],
         computed: {
             ...mapGetters({
-                posts: 'post/allPosts',
                 isLoggedIn: 'auth/isLoggedIn'
             })
         },

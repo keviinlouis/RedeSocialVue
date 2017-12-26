@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Dashboard from '../components/Dashboard';
 import Login from '../components/Auth/Login';
+import User from '../components/User';
 import {store} from '../store';
 
 Vue.use(Router);
@@ -18,6 +19,12 @@ const router = new Router({
                 path: '/',
                 name: 'DashBoard',
                 component: Dashboard,
+                meta:{auth:true}
+            },
+            {
+                path: '/me',
+                name: 'Me',
+                component: User,
                 meta:{auth:true}
             }
         ],

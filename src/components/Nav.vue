@@ -25,7 +25,12 @@
                         <template slot="button-content">
                             <em>User</em>
                         </template>
-                        <b-dropdown-item href="#">Profile</b-dropdown-item>
+
+                        <b-dropdown-item class="has-link">
+                            <b-link to="/me">
+                                <span>Profile</span>
+                            </b-link>
+                        </b-dropdown-item>
                         <b-dropdown-item @click="logout">Signout</b-dropdown-item>
                     </b-nav-item-dropdown>
                 </b-navbar-nav>
@@ -59,5 +64,12 @@
 <style scoped>
     span {
         color: white;
+    }
+    .has-link {
+        padding: 0 !important;
+    }
+    .has-link > div {
+        cursor: pointer;
+        padding: 0.5rem 1rem;
     }
 </style>

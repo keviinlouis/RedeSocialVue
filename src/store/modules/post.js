@@ -9,6 +9,11 @@ const state = {
 const getters = {
     allPosts: state => {
         return state.posts;
+    },
+    userPosts: (state) => (id) => {
+        return state.posts.filter((post)=>{
+            return post.user.id === id;
+        })
     }
 };
 
@@ -24,7 +29,6 @@ const mutations = {
     }
 
 };
-var paginatePosts = '/posts';
 const actions = {
     newPost({state, commit, rootState}, text) {
         new Promise((resolve, reject) => {
@@ -32,7 +36,6 @@ const actions = {
                 headers: {Authorization: 'Bearer '+localStorage.getItem('token')}
             })
                 .then(response => {
-                    console.log(response);
                     commit('newPost', response.data);
                     resolve(true);
                 })
@@ -53,13 +56,12 @@ const actions = {
             });
 
     },
-    loadPosts({commit}) {
+    loadPosts({state, commit}) {
         new Promise((resolve, reject) => {
-            axios.get(paginatePosts, {
+            axios.get('/posts/'+state.posts.length, {
                 headers: {Authorization: 'Bearer '+localStorage.getItem('token')}
             })
             .then(response => {
-                console.log(response);
                 commit('loadPosts', response.data.posts);
                 resolve(true);
             })

@@ -17,7 +17,6 @@ const getters = {
     },
     pending: state => state.status.pending,
     user: state => {
-        console.log(state.user);
         return state.user
     },
 };
@@ -43,7 +42,6 @@ const mutations = {
         state.status.logged = true;
     },
     setUser(state, user){
-        console.log(user);
         state.user = user;
     }
 };
@@ -60,11 +58,11 @@ const actions = {
             axios.post('/auth/login',  {email, password})
                 .then(response => {
                     commit('login', {user:response.data.user, token: response.data.token});
-                    resolve(true);
+                    resolve();
                 })
                 .catch(response => {
                     state.status.pending = false;
-                    reject(false)
+                    reject()
                 });
         });
 
@@ -76,7 +74,7 @@ const actions = {
         let token = localStorage.getItem('token');
         if(token){
             commit('setToken', token);
-            if(!state.user.length){
+            if(typeof state.user.id === 'undefined'){
                 axios.get('/auth/user', {
                     headers: {Authorization: 'Bearer '+localStorage.getItem('token')}
                 })

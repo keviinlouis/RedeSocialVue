@@ -18,9 +18,7 @@
                        required
                        @keyup.enter="login">
             </div>
-            <div class="alert alert-danger" v-if="error">
-                <p>Opa, parece que não encontramos seu email ou senha.</p>
-            </div>
+            <p class="error" v-if="error">Opa, parece que não encontramos seu email ou senha.</p>
             <button type="submit" class="btn btn-default" @click="login" v-if="!pending">Sign in</button>
             <i class="fa fa-spinner" v-else></i>
         </form>
@@ -47,11 +45,9 @@
                 this.$store
                     .dispatch('auth/login', {email: this.email, password: this.password})
                     .then(response => {
-                        console.log(response);
                         this.$router.push('/')
                     })
                     .catch(response => {
-                        console.log(response);
                         this.error = true;
                     })
             }
