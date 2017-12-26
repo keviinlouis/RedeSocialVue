@@ -25,19 +25,19 @@
                        required>
                 <span v-show="errors.has('email')" class="help error">{{ errors.first('email') }}</span>
             </div>
-            <div class="form-group" >
+            <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password"
                        id="password"
                        name="password"
                        class="form-control input"
                        v-model="password"
-                       v-validate="'required|min:6|confirmed'"
+                       v-validate="'required|min:6|confirmed:password_confirmation'"
                        :class="{'is-invalid': errors.has('password')}"
                        required>
                 <span v-show="errors.has('password')" class="help error">{{ errors.first('password') }}</span>
             </div>
-            <div class="form-group" >
+            <div class="form-group">
                 <label for="password_confirmation">Confirm Password</label>
                 <input type="password"
                        id="password_confirmation"
@@ -48,8 +48,10 @@
                        :class="{'is-invalid': errors.has('password_confirmation')}"
                        required>
                 <span v-show="errors.has('password_confirmation')" class="help error">{{ errors.first('password_confirmation') }}</span>
+                <!--TODO Mensagem de erro na confirmação errada-->
             </div>
-            <button type="submit" class="btn btn-default">Submit</button>
+            <button type="submit" class="btn btn-default" v-if="!pending">Submit</button>
+            <i class="fa fa-spinner" v-else></i>
             <span v-show="trySubmitWithErrors" class="help error">Fix the erros before register</span>
         </form>
 
@@ -57,6 +59,7 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex'
 
     export default {
         name: 'register',
@@ -66,8 +69,14 @@
                 email: '',
                 password: '',
                 password_confirmation: '',
-                trySubmitWithErrors: false
+                trySubmitWithErrors: false,
+
             }
+        },
+        computed: {
+            ...mapGetters({
+                pending: 'auth/pending'
+            })
         },
         methods: {
             register() {
@@ -75,15 +84,19 @@
                     if (result) {
                         this.$store
                             .dispatch('auth/register', {
-                                name: this.name, email: this.email, password: this.password, password_confirmation: this.password_confirmation
+                                name: this.name,
+                                email: this.email,
+                                password: this.password,
+                                password_confirmation: this.password_confirmation
                             })
                             .then(() => {
                                 this.trySubmitWithErrors = false;
                                 this.$router.push('/')
                             })
                             .catch(() => {
+                                //TODO tratar melhor os erros
                                 this.trySubmitWithErrors = true;
-                            })
+                            });
                         return;
                     }
 

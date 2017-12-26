@@ -8,12 +8,11 @@ import BootstrapVue from 'bootstrap-vue';
 import Axios from 'axios';
 import VueAxios from 'vue-axios';
 
-import VeeValidate from 'vee-validate';
+import VeeValidate, {Validator} from 'vee-validate';
+import ptBr from 'vee-validate/dist/locale/pt_BR';
 
-
-Vue.use(VeeValidate, {
-    locale: 'pt'
-});
+Validator.localize('pt_BR', ptBr);
+Vue.use(VeeValidate, {locale: 'pt_BR'});
 
 Vue.use(VueAxios, Axios);
 Vue.use(BootstrapVue);
@@ -21,6 +20,7 @@ Vue.use(BootstrapVue);
 Vue.config.productionTip = false;
 
 Axios.defaults.baseURL = 'http://localhost:8000/api';
+Axios.
 
 
 new Vue({
