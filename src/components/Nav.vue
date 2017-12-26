@@ -3,11 +3,9 @@
         <b-navbar toggleable="md" type="dark" variant="info">
             <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
-            <b-navbar-brand>
-                <router-link to="/">
-                    <span>Rede Social</span>
-                </router-link>
-            </b-navbar-brand>
+            <router-link to="/" tag="b-navbar-brand" >
+                <span class="has-link">Rede Social</span>
+            </router-link>
 
 
             <b-collapse is-nav id="nav_collapse">

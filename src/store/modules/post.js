@@ -32,9 +32,7 @@ const mutations = {
 const actions = {
     newPost({state, commit, rootState}, text) {
         new Promise((resolve, reject) => {
-            axios.post('/post', {text}, {
-                headers: {Authorization: 'Bearer '+localStorage.getItem('token')}
-            })
+            axios.post('/post', {text})
                 .then(response => {
                     commit('newPost', response.data);
                     resolve(true);
@@ -46,21 +44,18 @@ const actions = {
 
     },
     removePost({commit}, post) {
-        axios.delete('/post/'+post.id, {
-            headers: {Authorization: 'Bearer '+localStorage.getItem('token')}
-        })
+        axios.delete('/post/'+post.id)
             .then(response => {
                 commit('removePost', post)
             })
             .catch(response => {
+
             });
 
     },
     loadPosts({state, commit}) {
         new Promise((resolve, reject) => {
-            axios.get('/posts/'+state.posts.length, {
-                headers: {Authorization: 'Bearer '+localStorage.getItem('token')}
-            })
+            axios.get('/posts/'+state.posts.length)
             .then(response => {
                 commit('loadPosts', response.data.posts);
                 resolve(true);

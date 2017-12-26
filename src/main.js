@@ -20,7 +20,8 @@ Vue.use(BootstrapVue);
 Vue.config.productionTip = false;
 
 Axios.defaults.baseURL = 'http://localhost:8000/api';
-Axios.
+
+Axios.defaults.headers["Content-type"] = 'application/json';
 
 
 new Vue({

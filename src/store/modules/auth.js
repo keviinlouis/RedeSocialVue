@@ -1,4 +1,5 @@
 import axios from 'axios'
+import Axios from "axios/index";
 
 const namespaced = true;
 
@@ -34,9 +35,6 @@ const mutations = {
         state.token = null;
         state.status.logged = false;
     },
-    logging(state){
-        state.status.pending = true;
-    },
     setToken(state, token){
         state.token = token;
         state.status.logged = true;
@@ -49,7 +47,7 @@ const mutations = {
 const actions = {
     login({commit}, {email, password}) {
         //Mostrando o spinner
-        commit('logging');
+        state.status.pending = true;
 
         return new Promise((resolve, reject) => {
             axios.post('/auth/login',  {email, password})
@@ -69,18 +67,21 @@ const actions = {
     },
     setToken({commit}){
         let token = localStorage.getItem('token');
-        if(token){
+        if(token) {
+            Axios.defaults.headers["Authorization"] = 'Bearer '+localStorage.getItem('token');
             commit('setToken', token);
-            if(typeof state.user.id === 'undefined'){
-                axios.get('/auth/user', {
-                    headers: {Authorization: 'Bearer '+localStorage.getItem('token')}
-                })
-                    .then(response => {
-                        commit('setUser', response.data);
 
-                    })
-                    .catch(response => {
-                    });
+            if (Object.keys(state.user).length === 0) {
+                axios.get('/auth/user', {
+                    headers: {Authorization: 'Bearer ' + localStorage.getItem('token')}
+                })
+                .then(response => {
+                    commit('setUser', response.data);
+
+                })
+                .catch(response => {
+                    //TODO tratar melhor erro
+                });
             }
         }
     },

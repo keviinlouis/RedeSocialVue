@@ -28,14 +28,6 @@
             <i class="fa fa-spinner" v-else></i>
             <span v-show="trySubmitWithErrors" class="help error">Fix the erros before register</span>
         </form>
-        Description
-        errorBagName	errors	The name of the `ErrorBag` object that will be injected in each of Vue's instances' data.
-        fieldsBagName	fields	The name of the Fields (flags) object that will be injected in each of Vue's instances' data.
-        delay	0	The default debounce time for all inputs (only affects validations).
-        locale	en	The default language for the validation messages.
-        dictionary	null
-
-        A dictionary to be merged with the validators dictionary. (Check the [custom messages](rules.html#custom-messages) and [localization](loc
     </div>
 </template>
 <script>
