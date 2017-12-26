@@ -1,9 +1,11 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import {store} from '../store';
+
 import Dashboard from '../components/Dashboard';
 import Login from '../components/Auth/Login';
+import Register from '../components/Auth/Register';
 import User from '../components/User';
-import {store} from '../store';
 
 Vue.use(Router);
 
@@ -13,6 +15,12 @@ const router = new Router({
                 path: '/login',
                 name: 'Login',
                 component: Login,
+                meta:{auth:false}
+            },
+            {
+                path: '/register',
+                name: 'Register',
+                component: Register,
                 meta:{auth:false}
             },
             {
@@ -40,7 +48,7 @@ router.beforeEach((to, from, next) => {
             path: '/login',
             query: { redirect: to.fullPath }
         })
-    } else if(status && to.name === 'Login') {
+    } else if(status && (to.name === 'Login' || to.name === 'Register')) {
         next({path: '/' })
 
     }else{

@@ -47,12 +47,9 @@ const mutations = {
 };
 
 const actions = {
-    login({commit}, payload) {
+    login({commit}, {email, password}) {
         //Mostrando o spinner
         commit('logging');
-
-        let email = payload.email;
-        let password = payload.password;
 
         return new Promise((resolve, reject) => {
             axios.post('/auth/login',  {email, password})
@@ -86,6 +83,22 @@ const actions = {
                     });
             }
         }
+    },
+    register({commit}, {name, email, password, password_confirmation}){
+        //Mostrando o spinner
+        commit('logging');
+
+        return new Promise((resolve, reject) => {
+            axios.post('/auth/register',  {name, email, password, password_confirmation})
+                .then(response => {
+                    commit('login', {user:response.data.user, token: response.data.token});
+                    resolve();
+                })
+                .catch(response => {
+                    state.status.pending = false;
+                    reject()
+                });
+        });
     }
 };
 

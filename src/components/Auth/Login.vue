@@ -1,6 +1,5 @@
 <template>
     <div class="container">
-
         <form @submit.prevent="login" class="offset-3 col-6">
             <div class="form-group">
                 <label for="email">E-mail</label>

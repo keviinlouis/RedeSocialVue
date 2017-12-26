@@ -15,9 +15,14 @@
                 <b-navbar-nav class="ml-auto">
 
                     <b-nav-item v-if="!isLoggedIn">
-                        <router-link to="/login" >
+                        <b-link to="/login" >
                             <span>Login</span>
-                        </router-link>
+                        </b-link>
+                    </b-nav-item>
+                    <b-nav-item v-if="!isLoggedIn">
+                        <b-link to="/register" >
+                            <span>Register</span>
+                        </b-link>
                     </b-nav-item>
 
                     <b-nav-item-dropdown right v-else>

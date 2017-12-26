@@ -5,15 +5,19 @@ import App from './App'
 import router from './router'
 import {store} from './store/index.js';
 import BootstrapVue from 'bootstrap-vue';
-import VeeValidate from 'vee-validate';
 import Axios from 'axios';
 import VueAxios from 'vue-axios';
 
+import VeeValidate from 'vee-validate';
 
+
+Vue.use(VeeValidate, {
+    locale: 'pt'
+});
 
 Vue.use(VueAxios, Axios);
-Vue.use(VeeValidate);
 Vue.use(BootstrapVue);
+
 Vue.config.productionTip = false;
 
 Axios.defaults.baseURL = 'http://localhost:8000/api';
