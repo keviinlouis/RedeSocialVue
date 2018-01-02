@@ -25,7 +25,7 @@
             </div>
             <p class="error" v-if="loginFail">Opa, parece que não encontramos seu email ou senha.</p>
             <button type="submit" class="btn btn-default" v-if="!pending">Sign in</button>
-            <i class="fa fa-spinner" v-else></i>
+            <i class="fa fa-spinner fa-spin fa-2x" aria-hidden="true" v-else></i>
             <span v-show="trySubmitWithErrors" class="help error">Fix the erros before register</span>
         </form>
     </div>

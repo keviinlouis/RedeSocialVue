@@ -7,14 +7,7 @@ const state = {
 };
 
 const getters = {
-    allPosts: state => {
-        return state.posts;
-    },
-    userPosts: (state) => (id) => {
-        return state.posts.filter((post)=>{
-            return post.user.id === id;
-        })
-    }
+    allPosts: state => state.posts,
 };
 
 const mutations = {
@@ -31,14 +24,14 @@ const mutations = {
 };
 const actions = {
     newPost({state, commit, rootState}, text) {
-        new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             axios.post('/post', {text})
                 .then(response => {
                     commit('newPost', response.data);
-                    resolve(true);
+                    resolve();
                 })
                 .catch(response => {
-                    reject(false)
+                    reject()
                 });
         })
 
@@ -54,15 +47,20 @@ const actions = {
 
     },
     loadPosts({state, commit}) {
-        new Promise((resolve, reject) => {
+       return  new Promise((resolve, reject) => {
             axios.get('/posts/'+state.posts.length)
             .then(response => {
                 commit('loadPosts', response.data.posts);
-                resolve(true);
+                resolve(response);
             })
             .catch(response => {
-                reject(false)
+                reject(response)
             });
+        })
+    },
+    loadUserPosts({state, commit}, id){
+        return new Promise((resolve, reject) => {
+
         })
     }
 };

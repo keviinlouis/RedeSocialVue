@@ -30,11 +30,6 @@
             ...mapGetters({
                 isLoggedIn: 'auth/isLoggedIn'
             })
-        },
-        created(){
-            if(this.isLoggedIn){
-                this.$store.dispatch('post/loadPosts');
-            }
         }
     };
 </script>

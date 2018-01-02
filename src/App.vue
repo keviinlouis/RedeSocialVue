@@ -1,7 +1,7 @@
 <template>
     <div id="app">
-        <nav-component></nav-component>
-        <router-view></router-view>
+        <nav-component class="fixed-top" ></nav-component>
+        <router-view style="margin-top: 70px"></router-view>
     </div>
 </template>
 

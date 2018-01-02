@@ -2,15 +2,15 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <new-post></new-post>
+                <b-card title="Infos">
+                    <p>{{user.name}}</p>
+                    <p>Following: {{user.following.length}}</p>
+                    <p>Followers: {{user.followers.length}}</p>
+                </b-card>
             </div>
             <div class="col-md-8">
-                <b-card title="Dashboard" id="dashboard">
-                    <list-posts :posts="posts"></list-posts>
-                    <div class="text-center" style="color: gray">
-                        <i class="fa fa-spinner fa-spin fa-5x" aria-hidden="true" v-show="loading && needToLoad"></i>
-                        <i class="fa fa-circle" aria-hidden="true" v-show="!needToLoad"></i>
-                    </div>
+                <b-card title="Posts" id="posts">
+                    <post-list :posts="posts"></post-list>
                 </b-card>
             </div>
         </div>
@@ -18,12 +18,11 @@
 </template>
 
 <script>
-    import NewPost from './Post/New.vue';
-    import ListPost from './Post/List.vue';
+    import PostList from '../Post/List';
     import {mapGetters} from 'vuex';
 
     export default {
-        name: "dashboard",
+        name: "user",
         data() {
             return {
                 loading: true,
@@ -32,12 +31,12 @@
         },
         computed: {
             ...mapGetters({
-                posts: 'post/allPosts'
+                user: 'auth/user',
+                posts: 'auth/posts'
             })
         },
         components: {
-            'new-post': NewPost,
-            'list-posts': ListPost
+            'post-list': PostList
         },
         created() {
             this.loadPosts();
@@ -48,7 +47,7 @@
                 if (!this.loading && this.needToLoad) {
                     // Watch video for line by line explanation of the code
                     // http://www.youtube.com/watch?v=eziREnZPml4
-                    let wrap = document.getElementById('dashboard');
+                    let wrap = document.getElementById('posts');
                     let contentHeight = wrap.offsetHeight;
                     let yOffset = window.pageYOffset;
                     let y = yOffset + window.innerHeight;
@@ -59,7 +58,7 @@
             },
             loadPosts(){
                 this.loading = true;
-                this.$store.dispatch('post/loadPosts').then((response) => {
+                this.$store.dispatch('auth/loadUserPosts').then((response) => {
                     this.loading = false;
                     if(response.data._meta._next === null){
                         this.needToLoad = false;
@@ -71,7 +70,5 @@
 </script>
 
 <style scoped>
-    #dashboard{
-        margin-bottom: 50px;
-    }
+
 </style>
