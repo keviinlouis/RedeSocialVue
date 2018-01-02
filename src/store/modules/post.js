@@ -37,7 +37,7 @@ const actions = {
 
     },
     removePost({commit}, post) {
-        axios.delete('/post/'+post.id)
+        axios.delete('/post/' + post.id)
             .then(response => {
                 commit('removePost', post)
             })
@@ -47,18 +47,19 @@ const actions = {
 
     },
     loadPosts({state, commit}) {
-       return  new Promise((resolve, reject) => {
-            axios.get('/posts/'+state.posts.length)
-            .then(response => {
-                commit('loadPosts', response.data.posts);
-                resolve(response);
-            })
-            .catch(response => {
-                reject(response)
-            });
+        console.log('teste');
+        return new Promise((resolve, reject) => {
+            axios.get('/posts/' + state.posts.length)
+                .then(response => {
+                    commit('loadPosts', response.data.posts);
+                    resolve(response);
+                })
+                .catch(response => {
+                    reject(response)
+                });
         })
     },
-    loadUserPosts({state, commit}, id){
+    loadUserPosts({state, commit}, id) {
         return new Promise((resolve, reject) => {
 
         })

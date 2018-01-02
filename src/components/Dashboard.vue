@@ -3,10 +3,11 @@
         <div class="row">
             <div class="col-md-4">
                 <new-post></new-post>
+                <sugested-users></sugested-users>
             </div>
             <div class="col-md-8">
                 <b-card title="Dashboard" id="dashboard">
-                    <list-posts :posts="posts"></list-posts>
+                    <list-post :posts="posts"></list-post>
                     <div class="text-center" style="color: gray">
                         <i class="fa fa-spinner fa-spin fa-5x" aria-hidden="true" v-show="loading && needToLoad"></i>
                         <i class="fa fa-circle" aria-hidden="true" v-show="!needToLoad"></i>
@@ -20,6 +21,7 @@
 <script>
     import NewPost from './Post/New.vue';
     import ListPost from './Post/List.vue';
+    import SugestedUsers from "./SugestedUsers";
     import {mapGetters} from 'vuex';
 
     export default {
@@ -36,13 +38,15 @@
             })
         },
         components: {
-            'new-post': NewPost,
-            'list-posts': ListPost
+            SugestedUsers,
+            NewPost,
+            ListPost
         },
         created() {
             this.loadPosts();
             window.onscroll = this.yHandler;
         },
+
         methods: {
             yHandler() {
                 if (!this.loading && this.needToLoad) {
@@ -57,11 +61,11 @@
                     }
                 }
             },
-            loadPosts(){
+            loadPosts() {
                 this.loading = true;
                 this.$store.dispatch('post/loadPosts').then((response) => {
                     this.loading = false;
-                    if(response.data._meta._next === null){
+                    if (response.data._meta._next === null) {
                         this.needToLoad = false;
                     }
                 });
@@ -71,7 +75,7 @@
 </script>
 
 <style scoped>
-    #dashboard{
+    #dashboard {
         margin-bottom: 50px;
     }
 </style>

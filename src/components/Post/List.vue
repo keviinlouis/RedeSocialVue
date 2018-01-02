@@ -1,11 +1,11 @@
 <template lang="html">
     <div id="posts" v-if="posts.length > 0">
         <post-item
-            v-for="(post, index) in posts"
-            :key="post.id"
-            :post="post"
-            :index="index"
-            class="post"></post-item>
+                v-for="(post, index) in posts"
+                :key="post.id"
+                :post="post"
+                :index="index"
+                class="post"></post-item>
 
         <div id="loading" style="height: 100px; display: none" class="cssload-container">
             <div class="cssload-whirlpool"></div>
@@ -17,12 +17,12 @@
 </template>
 
 <script>
-    import { mapGetters, mapActions } from 'vuex';
+    import {mapGetters, mapActions} from 'vuex';
 
     import Post from './Item.vue';
 
     export default {
-        components:{
+        components: {
             'post-item': Post
         },
         props: ["posts"],
@@ -36,7 +36,7 @@
 
 
 <style scoped>
-    .post{
+    .post {
         margin-bottom: 10px;
     }
 </style>

@@ -15,25 +15,25 @@ const router = new Router({
                 path: '/login',
                 name: 'Login',
                 component: Login,
-                meta:{auth:false}
+                meta: {auth: false}
             },
             {
                 path: '/register',
                 name: 'Register',
                 component: Register,
-                meta:{auth:false}
+                meta: {auth: false}
             },
             {
                 path: '/',
                 name: 'DashBoard',
                 component: Dashboard,
-                meta:{auth:true}
+                meta: {auth: true}
             },
             {
                 path: '/me',
                 name: 'Me',
                 component: User,
-                meta:{auth:true},
+                meta: {auth: true},
                 props: {id: store.state.auth.user.id}
             }
         ],
@@ -48,12 +48,12 @@ router.beforeEach((to, from, next) => {
     if (to.meta.auth && !status) {
         next({
             path: '/login',
-            query: { redirect: to.fullPath }
+            query: {redirect: to.fullPath}
         })
-    } else if(status && (to.name === 'Login' || to.name === 'Register')) {
-        next({path: '/' })
+    } else if (status && (to.name === 'Login' || to.name === 'Register')) {
+        next({path: '/'})
 
-    }else{
+    } else {
         next()
 
     }

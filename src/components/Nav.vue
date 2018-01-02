@@ -15,6 +15,9 @@
                     <b-nav-item v-show="!isLoggedIn" to="/login">
                         Login
                     </b-nav-item>
+                    <b-nav-item v-show="!isLoggedIn" to="/register">
+                        Register
+                    </b-nav-item>
                     <b-nav-item to="/me" v-show="isLoggedIn">
                         Profile
                     </b-nav-item>

@@ -16,6 +16,7 @@ const state = {
         following: [],
         posts: [],
     },
+    suggestedUsers: []
 };
 
 const getters = {
@@ -25,6 +26,7 @@ const getters = {
     followers: state => state.user.followers,
     following: state => state.user.following,
     posts: state => state.user.posts,
+    suggestedUsers: state => state.suggestedUsers
 };
 
 const mutations = {
@@ -53,6 +55,19 @@ const mutations = {
     },
     setUserPosts(state, posts){
         state.user.posts.push(...posts);
+        localStorage.setItem('user', JSON.stringify(user));
+    },
+    setSuggestedUsers(state, users){
+        state.suggestedUsers = users;
+    },
+    removeSuggestedUser(state, id){
+        let userKey;
+        state.suggestedUsers.filter((user, key)=>{
+            if(user.id === id){
+                userKey = key;
+            }
+        });
+        state.suggestedUsers.splice(userKey, 1)
     }
 };
 
@@ -117,9 +132,7 @@ const actions = {
             });
     },
     loadUserPosts({state, commit}){
-
         return new Promise((resolve, reject)=> {
-            console.log(state.user);
             axios.get('/posts/' + state.user.posts.length + '?id=' + state.user.id)
                 .then(response => {
                     commit('setUserPosts', response.data.posts);
@@ -129,6 +142,27 @@ const actions = {
                     //TODO tratar melhor erro
                     reject(response);
                 });
+        })
+    },
+    suggestedUsers({state, commit}){
+        let actualShowingUsers = state.suggestedUsers.map((user)=> {
+            return user.id
+        });
+        axios.post('/user/suggested', {actualShowingUsers}
+        ).then(response => {
+            commit('setSuggestedUsers', response.data.suggestedUsers)
+        }).catch(response => {
+            //TODO melhorar erro
+        })
+    },
+    follow({state, commit, dispatch, rootState}, id){
+        axios.post('/user/'+id+'/follow'
+        ).then(response => {
+            if(response.data.action === 'followed'){
+                commit('removeSuggestedUser', id);
+            }
+        }).catch(response => {
+            //TODO melhorar erro
         })
     }
 };
