@@ -19,9 +19,10 @@ Vue.use(BootstrapVue);
 
 Vue.config.productionTip = false;
 
-Axios.defaults.baseURL = 'http://localhost:8000/api';
+Axios.defaults.baseURL = 'https://rede-social-webservice.herokuapp.com/api';
 
 Axios.defaults.headers["Content-type"] = 'application/json';
+Axios.defaults.headers["Access-Control-Allow-Origin"] = 'http://localhost:8081';
 
 
 new Vue({
@@ -29,5 +30,4 @@ new Vue({
     render: h => h(App),
     router,
     store
-
 });
