@@ -41,6 +41,8 @@ const mutations = {
     },
     logout(state) {
         localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        state.rootState.dispatch('posts/removePosts');
         state.token = null;
         state.status.logged = false;
         state.user = {};
@@ -144,26 +146,28 @@ const actions = {
                 });
         })
     },
-    suggestedUsers({state, commit}){
+    suggestedUsers({state, commit, rootState}){
         let actualShowingUsers = state.suggestedUsers.map((user)=> {
             return user.id
         });
         axios.post('/user/suggested', {actualShowingUsers}
         ).then(response => {
-            commit('setSuggestedUsers', response.data.suggestedUsers)
+            commit('setSuggestedUsers', response.data.suggestedUsers);
+            rootState.dispatch('posts/loadPosts');
         }).catch(response => {
             //TODO melhorar erro
         })
     },
     follow({state, commit, dispatch, rootState}, id){
-        axios.post('/user/'+id+'/follow'
-        ).then(response => {
-            if(response.data.action === 'followed'){
-                commit('removeSuggestedUser', id);
-            }
-        }).catch(response => {
-            //TODO melhorar erro
-        })
+        axios.post('/user/'+id+'/follow')
+            .then(response => {
+                if(response.data.action === 'followed'){
+                    commit('removeSuggestedUser', id);
+                }
+                dispatch('post/loadPosts', {refresh: true}, {root: true});
+            }).catch(response => {
+                //TODO melhorar erro
+            })
     }
 };
 

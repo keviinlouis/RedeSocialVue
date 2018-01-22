@@ -1,8 +1,6 @@
-<template lang="html">
+<template>
     <b-card title="Postar"
-            tag="article"
-            style="max-width: 20rem;"
-            class="mb-2">
+            tag="article">
             <textarea
                     id="post"
                     rows="3"

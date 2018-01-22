@@ -36,8 +36,8 @@
     export default {
         data() {
             return {
-                email: '',
-                password: '',
+                email: 'keviinlouis@hotmail.com',
+                password: '123456',
                 trySubmitWithErrors: false,
                 loginFail:false
             }
@@ -56,6 +56,7 @@
                         this.$store
                             .dispatch('auth/login', {email: this.email, password: this.password})
                             .then(response => {
+                              this.$store.dispatch('post/loadPosts')
                                 this.$router.push('/')
                             })
                             .catch(response => {

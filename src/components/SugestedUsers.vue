@@ -45,12 +45,9 @@
             })
         },
         methods: {
-            follow(id){
-                this.$store.dispatch('auth/follow', id).then(()=>{
-                    // this.$store.dispatch('post/loadPosts')
-                    //TODO refresh posts
-                });
-            },
+            ...mapActions({
+              follow: 'auth/follow'
+            }),
             reload(){
                 this.loading = true;
                 this.$store.dispatch('auth/suggestedUsers').then(()=>{

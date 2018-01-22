@@ -19,6 +19,12 @@ const mutations = {
     },
     loadPosts(state, posts) {
         state.posts.push(...posts);
+    },
+    setPosts(state, posts){
+      state.posts = posts;
+    },
+    clearPosts(state){
+      state.posts = [];
     }
 
 };
@@ -46,12 +52,19 @@ const actions = {
             });
 
     },
-    loadPosts({state, commit}) {
-        console.log('teste');
+    loadPosts({state, commit}, refresh) {
         return new Promise((resolve, reject) => {
-            axios.get('/posts/' + state.posts.length)
+             let url = '/posts/' + state.posts.length;
+             if(refresh){
+                url = '/posts/0';
+             }
+            axios.get(url)
                 .then(response => {
-                    commit('loadPosts', response.data.posts);
+                    if(refresh){
+                      commit('setPosts', response.data.posts);
+                    }else{
+                      commit('loadPosts', response.data.posts);
+                    }
                     resolve(response);
                 })
                 .catch(response => {
@@ -63,6 +76,9 @@ const actions = {
         return new Promise((resolve, reject) => {
 
         })
+    },
+    clearPosts({commit}){
+      commit('clearPosts');
     }
 };
 
