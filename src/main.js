@@ -31,6 +31,8 @@ Vue.config.productionTip = false;
 
 Axios.defaults.baseURL = 'https://rede-social-webservice.herokuapp.com/api';
 
+
+
 Axios.defaults.headers["Content-type"] = 'application/json';
 Axios.defaults.headers["Access-Control-Allow-Origin"] = '*';
 Axios.defaults.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, Authorization, Access-Control-Allow-Origin';
