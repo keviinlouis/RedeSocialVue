@@ -26,6 +26,7 @@ window.Echo = new Echo({
   // encrypted: false
 });
 
+
 Vue.config.productionTip = false;
 
 Axios.defaults.baseURL = 'https://rede-social-webservice.herokuapp.com/api';
