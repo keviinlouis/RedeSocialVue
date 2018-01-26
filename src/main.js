@@ -30,7 +30,6 @@ window.Echo = new Echo({
 Vue.config.productionTip = false;
 
 Axios.defaults.baseURL = 'https://rede-social-webservice.herokuapp.com/api';
-// Axios.defaults.baseURL = 'http://localhost:8000/api';
 
 Axios.defaults.headers["Content-type"] = 'application/json';
 Axios.defaults.headers["Access-Control-Allow-Origin"] = '*';
