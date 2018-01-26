@@ -56,10 +56,10 @@
                         this.$store
                             .dispatch('auth/login', {email: this.email, password: this.password})
                             .then(response => {
-                              this.$store.dispatch('post/loadPosts')
-                                this.$router.push('/')
+                              this.$router.push('/');
                             })
                             .catch(response => {
+                                console.log(response);
                                 //TODO Tratar melhor os erros
                                 this.loginFail = true;
                             });

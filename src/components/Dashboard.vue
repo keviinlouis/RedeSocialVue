@@ -22,7 +22,7 @@
     import NewPost from './Post/New.vue';
     import ListPost from './Post/List.vue';
     import SugestedUsers from "./SugestedUsers";
-    import {mapGetters} from 'vuex';
+    import {mapGetters, mapActions} from 'vuex';
 
     export default {
         name: "dashboard",
@@ -45,6 +45,11 @@
         created() {
             this.loadPosts();
             window.onscroll = this.yHandler;
+
+            window.Echo.channel('new-posts-1')
+              .listen('NewPost', (data) => {
+                  this.eventNewPost({post: data.post, user: data.user});
+              });
         },
 
         methods: {
@@ -69,7 +74,10 @@
                         this.needToLoad = false;
                     }
                 });
-            }
+            },
+          ...mapActions({
+            eventNewPost: 'post/eventNewPost'
+          })
         }
     }
 </script>

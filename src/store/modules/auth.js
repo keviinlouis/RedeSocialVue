@@ -42,7 +42,7 @@ const mutations = {
     logout(state) {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        state.rootState.dispatch('posts/removePosts');
+
         state.token = null;
         state.status.logged = false;
         state.user = {};
@@ -83,7 +83,7 @@ const actions = {
                 .then(response => {
                     commit('login', {user: response.data.user, token: response.data.token});
                     Axios.defaults.headers["Authorization"] = 'Bearer ' + localStorage.getItem('token');
-                    resolve();
+                    resolve({user: response.data.user});
                 })
                 .catch(response => {
                     state.status.pending = false;
@@ -92,8 +92,9 @@ const actions = {
         });
 
     },
-    logout({commit}) {
-        commit('logout')
+    logout({commit, dispatch}) {
+        commit('logout');
+        dispatch('post/removePosts', {}, {root: true});
     },
     register({commit}, {name, email, password, password_confirmation}) {
         //Mostrando o spinner
@@ -146,14 +147,14 @@ const actions = {
                 });
         })
     },
-    suggestedUsers({state, commit, rootState}){
+    suggestedUsers({state, commit}){
         let actualShowingUsers = state.suggestedUsers.map((user)=> {
             return user.id
         });
         axios.post('/user/suggested', {actualShowingUsers}
         ).then(response => {
             commit('setSuggestedUsers', response.data.suggestedUsers);
-            rootState.dispatch('posts/loadPosts');
+
         }).catch(response => {
             //TODO melhorar erro
         })
@@ -163,7 +164,11 @@ const actions = {
             .then(response => {
                 if(response.data.action === 'followed'){
                     commit('removeSuggestedUser', id);
+
+                }else{
+                    dispatch('suggestedUsers');
                 }
+                dispatch('loadUser');
                 dispatch('post/loadPosts', {refresh: true}, {root: true});
             }).catch(response => {
                 //TODO melhorar erro

@@ -23,7 +23,7 @@ const mutations = {
     setPosts(state, posts){
       state.posts = posts;
     },
-    clearPosts(state){
+    removePosts(state){
       state.posts = [];
     }
 
@@ -77,8 +77,18 @@ const actions = {
 
         })
     },
-    clearPosts({commit}){
-      commit('clearPosts');
+    removePosts({commit}){
+      commit('removePosts');
+    },
+    eventNewPost({state, commit, rootState, rootGetters}, {post, user}){
+      let following = rootGetters['auth/following'];
+      let isFollowing = following.find((userFollowing)=>{
+        return userFollowing.id === user.id;
+      }, user);
+      post.user = user;
+      if(isFollowing){
+        commit('newPost', post);
+      }
     }
 };
 
