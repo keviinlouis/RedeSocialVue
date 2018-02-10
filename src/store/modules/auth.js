@@ -80,12 +80,14 @@ const actions = {
 
         return new Promise((resolve, reject) => {
             axios.post('/auth/login', {email, password})
-                .then(response => {
-                    commit('login', {user: response.data.user, token: response.data.token});
+                .then(function(response) {
+                  console.log(response);
+                    commit('login', response.data);
                     Axios.defaults.headers["Authorization"] = 'Bearer ' + localStorage.getItem('token');
                     resolve({user: response.data.user});
                 })
                 .catch(response => {
+                  console.log(response);
                     state.status.pending = false;
                     reject()
                 });
@@ -173,6 +175,9 @@ const actions = {
             }).catch(response => {
                 //TODO melhorar erro
             })
+    },
+    updateToken({commit}, {token}){
+      commit('setToken', token);
     }
 };
 

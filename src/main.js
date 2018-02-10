@@ -29,14 +29,20 @@ window.Echo = new Echo({
 
 Vue.config.productionTip = false;
 
-Axios.defaults.baseURL = 'https://rede-social-webservice.herokuapp.com/api';
-
+// Axios.defaults.baseURL = 'https://rede-social-webservice.herokuapp.com/api';
+Axios.defaults.baseURL = 'http://localhost:8000/api';
 
 
 Axios.defaults.headers["Content-type"] = 'application/json';
 Axios.defaults.headers["Access-Control-Allow-Origin"] = '*';
 Axios.defaults.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, Authorization, Access-Control-Allow-Origin';
-
+Axios.interceptors.response.use(function(response){
+  let new_token = response.headers['new_token'];
+  if(new_token){
+    store.dispatch('auth/updateToken', {token: new_token})
+  }
+  return response;
+});
 
 new Vue({
     el: '#app',

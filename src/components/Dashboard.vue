@@ -34,7 +34,8 @@
         },
         computed: {
             ...mapGetters({
-                posts: 'post/allPosts'
+                posts: 'post/allPosts',
+                user: 'auth/user'
             })
         },
         components: {
@@ -46,8 +47,9 @@
             this.loadPosts();
             window.onscroll = this.yHandler;
 
-            window.Echo.channel('new-posts-1')
+            window.Echo.channel('new-posts-'+this.user.id)
               .listen('NewPost', (data) => {
+                console.log(data);
                   this.eventNewPost({post: data.post, user: data.user});
               });
         },
